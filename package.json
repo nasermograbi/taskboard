@@ -1,0 +1,19 @@
+{
+  "name": "taskboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Taskboard monorepo — a full-stack task management app with React frontend and Express backend.",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n backend,frontend -c blue,green \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "npm run dev --workspace=@taskboard/frontend",
+    "dev:backend": "npm run dev --workspace=@taskboard/backend",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "build": "npm run build --workspace=@taskboard/frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
