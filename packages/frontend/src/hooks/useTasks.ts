@@ -31,9 +31,9 @@ export const useTasks = () => {
 
       const data = await getTasks(pageNumber, limit);
       if (isLoadMore) {
-        setTasks((prev) => [...prev, ...data.items]);
+        setTasks((prev) => [...prev, ...data.tasks]);
       } else {
-        setTasks(data.items);
+        setTasks(data.tasks);
       }
       setHasMore(pageNumber < data.totalPages);
       setError(null);
@@ -60,11 +60,13 @@ export const useTasks = () => {
   const createTask = async (taskPayload: CreateTaskInput) => {
     const tempId = Date.now();
     const optimisticTask: Task = {
-      ...taskPayload,
       id: tempId,
+      title: taskPayload.title,
       status: "OPEN",
-      created_at: new Date(),
-      updated_at: new Date(),
+      description: taskPayload.description ?? null,
+      assignee: taskPayload.assignee ?? null,
+      priority: taskPayload.priority ?? null,
+      createdAt: new Date().toISOString(),
     };
 
     setTasks((prev) => [optimisticTask, ...prev]);

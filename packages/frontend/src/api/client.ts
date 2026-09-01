@@ -71,9 +71,9 @@ export const apiPost = async <T>(path: string, body: unknown): Promise<T> =>
     body: JSON.stringify(body),
   });
 
-export const apiPut = async <T>(path: string, body: unknown): Promise<T> =>
+export const apiPatch = async <T>(path: string, body: unknown): Promise<T> =>
   apiRequest<T>(path, {
-    method: "PUT",
+    method: "PATCH",
     body: JSON.stringify(body),
   });
 
@@ -99,10 +99,21 @@ export type {
   PaginatedTasks,
 };
 
-export const getTasks = (page: number = 1, limit: number = 10) =>
-  apiGet<PaginatedTasks>(`/tasks?page=${page}&limit=${limit}`);
+export const getTasks = (
+  page: number = 1,
+  limit: number = 10,
+  status?: TaskStatus,
+) => {
+  const params = new URLSearchParams({
+    page: String(page),
+    limit: String(limit),
+  });
+  if (status) params.set("status", status);
+  return apiGet<PaginatedTasks>(`/tasks?${params}`);
+};
+export const getTask = (taskId: number) => apiGet<Task>(`/tasks/${taskId}`);
 export const createTask = (payload: CreateTaskInput) =>
   apiPost<Task>("/tasks", payload);
 export const updateTask = (taskId: number, payload: UpdateTaskInput) =>
-  apiPut<Task>(`/tasks/${taskId}`, payload);
+  apiPatch<Task>(`/tasks/${taskId}`, payload);
 export const deleteTask = (taskId: number) => apiDelete(`/tasks/${taskId}`);

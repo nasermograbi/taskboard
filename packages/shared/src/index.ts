@@ -8,27 +8,26 @@ export type Task = {
   description: string | null;
   assignee: string | null;
   priority: TaskPriority | null;
-  created_at: Date;
-  updated_at: Date;
+  createdAt: string;
 };
 
 export type CreateTaskInput = {
   title: string;
-  description: string | null;
-  assignee: string | null;
-  priority: TaskPriority;
+  description?: string | null;
+  assignee?: string | null;
+  priority?: TaskPriority | null;
 };
 
 export type UpdateTaskInput = {
-  title: string;
-  description: string | null;
-  assignee: string | null;
-  priority: TaskPriority;
-  status: TaskStatus;
+  title?: string;
+  description?: string | null;
+  assignee?: string | null;
+  priority?: TaskPriority | null;
+  status?: TaskStatus;
 };
 
 export type PaginatedTasks = {
-  items: Task[];
+  tasks: Task[];
   totalCount: number;
   page: number;
   limit: number;
